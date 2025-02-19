@@ -4,6 +4,7 @@ import Home from './components/Home';
 import SignInPage from './components/SignInPage';
 import Dashboard from './components/Dashboard';
 import { useUser } from '@clerk/clerk-react';
+import Navbar from './components/Navbar';
 
 // Protected Route Wrapper
 function ProtectedRoute() {
@@ -17,6 +18,7 @@ function ProtectedRoute() {
 function AppLayout() {
   return (
     <>
+      <Navbar/>
       <Outlet /> {/* Renders either Home or Dashboard */}
     </>
   );
@@ -27,11 +29,11 @@ function App() {
     <Routes>
       {/* Public Route */}
       <Route path="/auth/sign-in" element={<SignInPage />} />
+      <Route path="/" element={<Home />} />
 
       {/* Protected Routes */}
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
-          <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
       </Route>
