@@ -1,25 +1,42 @@
-import './App.css'
-import { Route, Router, Routes } from 'react-router-dom'
-import Navbar from './components/Navbar'
-import Home from './components/Home'
-import SignInPage from './components/SignInPage'
-import Dashboard from './components/Dashboard'
+import './App.css';
+import { Route, Routes, Navigate, Outlet } from 'react-router-dom';
+import Home from './components/Home';
+import SignInPage from './components/SignInPage';
+import Dashboard from './components/Dashboard';
+import { useUser } from '@clerk/clerk-react';
 
-function App() {
+// Protected Route Wrapper
+function ProtectedRoute() {
+  const { isLoaded, isSignedIn } = useUser();
 
-  return (
-    <>
-    {/* <Navbar/> */}
-    <h1>Main Page</h1>
-        <Routes>
-          <Route path='/home' element={<Home/>}/>
-          <Route path='/auth/sign-in' element={<SignInPage/>}/>
-          <Route path='/auth/sign-in' element={<SignInPage/>}/>
-          <Route path='/dashboard' element={<Dashboard/>}/>
-        </Routes>
-      
-    </>
-  )
+  if (!isLoaded) return null; // Wait for Clerk to load
+  return isSignedIn ? <Outlet /> : <Navigate to="/auth/sign-in" replace />;
 }
 
-export default App
+// App Layout with Navbar
+function AppLayout() {
+  return (
+    <>
+      <Outlet /> {/* Renders either Home or Dashboard */}
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      {/* Public Route */}
+      <Route path="/auth/sign-in" element={<SignInPage />} />
+
+      {/* Protected Routes */}
+      <Route element={<ProtectedRoute />}>
+        <Route element={<AppLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+      </Route>
+    </Routes>
+  );
+}
+
+export default App;
