@@ -1,7 +1,18 @@
 import React from 'react'
 import AddResume from './AddResume'
+import { useAuthUser } from "@/hooks/useAuthUser";
+import { getUserResumes } from "../service/resumeService";
 
 function Dashboard() {
+  // const user = useAuthUser();
+  // const [resumes, setResumes] = useState([]);
+
+  // useEffect(() => {
+  //   if (user) {
+  //     getUserResumes(user.id).then(setResumes);
+  //   }
+  // }, [user]);
+
   return (
     <div className='p-10 md:px-20 lg:px-32'>
       <h2 className='font-bold text-3xl'>My Resume</h2>

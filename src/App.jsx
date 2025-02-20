@@ -5,6 +5,7 @@ import SignInPage from './components/SignInPage';
 import Dashboard from './components/Dashboard';
 import { useUser } from '@clerk/clerk-react';
 import Navbar from './components/Navbar';
+import EditResume from './components/EditResume';
 
 // Protected Route Wrapper
 function ProtectedRoute() {
@@ -35,6 +36,7 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/resume/:resumeId/edit" element={<EditResume />} />
         </Route>
       </Route>
     </Routes>
